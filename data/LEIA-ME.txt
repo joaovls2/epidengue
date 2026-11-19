@@ -1,0 +1,3 @@
+Para processamento local dos microdados completos, coloque aqui o CSV original baixado da PDD-Cidacs com o nome SINAN_-_Dengue.csv.
+O arquivo original não é incluído no repositório público. No painel, também é possível enviar o arquivo pela barra lateral.
+O painel já inicia com uma série semanal agregada (sem registros individuais) para facilitar a demonstração online.
