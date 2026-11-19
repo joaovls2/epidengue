@@ -1,64 +1,37 @@
-# Dengue IA - Pernambuco (2015-2025)
+# EpiDengue - Pernambuco
 
-Projeto acadêmico de Inteligência Artificial para análise de notificações prováveis de dengue em Pernambuco e estimativa experimental das quatro semanas posteriores ao fim da série histórica.
+Projeto acadêmico de análise de dados e previsão experimental de notificações prováveis de dengue em Pernambuco.
 
-## A aplicação já abre com dados
+## Dados nesta versão
 
-O diretório `dashboard_data/` contém apenas dados agregados por semana, ano e mês, calculados a partir da extração real do SINAN processada neste projeto. Assim, o painel pode ser implantado e aberto por outra pessoa sem precisar enviar os microdados individuais.
+- 2015-2025: série histórica agregada proveniente da PDD/Cidacs.
+- 2026: microdados públicos do SINAN/Dengue, Portal de Dados Abertos do SUS, filtrados para residentes em Pernambuco (SG_UF=26). A extração usada foi atualizada em 14/11/2026 e contém datas de início de sintomas até 29/10/2026.
+- A primeira semana de 2015 e a última semana parcial de 2026 são exibidas no histórico, mas não são usadas para treinar ou avaliar o modelo. A última semana contém registros apenas até 29/10/2026.
+- A sazonalidade mensal permanece calculada sobre os anos completos de 2015 a 2025.
 
-Para reprocessar uma extração completa, envie o CSV/CSV.GZ pela barra lateral ou coloque o arquivo original em `data/SINAN_-_Dengue.csv`. O arquivo original não deve ser enviado ao repositório público.
+## Algoritmo
 
-## Executar localmente (Windows)
+Random Forest Regressor (aprendizado supervisionado, tarefa de regressão), com variáveis de defasagem semanal, médias móveis e posição da semana no ano. A avaliação utiliza divisão temporal, sem embaralhar as observações.
 
-Requisitos: Python 3.11 ou superior.
+## Execução local
 
-```powershell
-py --version
-py -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
+```bash
+python -m venv .venv
+# Windows Git Bash: source .venv/Scripts/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-Se o PowerShell bloquear a ativação do ambiente virtual, use somente nesta janela:
+## Arquivos de dados
 
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.venv\Scripts\Activate.ps1
-```
+- `dashboard_data/dengue_pe_semanal_2015_2026.csv`: série semanal combinada.
+- `dashboard_data/dengue_pe_total_anual_2015_2026.csv`: totais anuais; 2026 é parcial.
+- `dashboard_data/dengue_pe_total_mensal_2015_2025.csv`: sazonalidade baseada em anos completos.
+- `dashboard_data/FONTE_DADOS_2026.txt`: critérios de extração e fonte.
 
-Também é possível ativar pelo Prompt de Comando (CMD):
-
-```bat
-.venv\Scripts\activate.bat
-```
-
-## Implantar na internet com Streamlit Community Cloud
-
-1. Crie um repositório no GitHub.
-2. Envie para ele os arquivos do projeto, incluindo `app.py`, `pipeline.py`, `requirements.txt`, `.streamlit/` e `dashboard_data/`.
-3. **Não envie o CSV individual completo do SINAN**. O `.gitignore` já ignora arquivos CSV/CSV.GZ dentro de `data/`.
-4. Acesse https://share.streamlit.io/ e entre com GitHub.
-5. Clique em **Create app** e selecione o repositório, a branch `main` e o arquivo `app.py`.
-6. Clique em **Deploy**. O Streamlit instala as dependências do `requirements.txt` e gera uma URL `*.streamlit.app`.
-
-A aplicação inicializa com a série agregada em `dashboard_data/`, portanto o link abre com gráficos e resultados já disponíveis. É possível enviar uma nova extração pela barra lateral para reprocessá-la, mas isso não é necessário para a demonstração.
-
-## O que o projeto faz
-
-- Problema: analisar a evolução de notificações prováveis de dengue em Pernambuco.
-- Fonte: SINAN - Dengue, Ministério da Saúde/DATASUS, extraído pela PDD-Cidacs/Fiocruz.
-- Recorte: 2015 a 2025, por UF de residência.
-- Definição operacional: notificações suspeitas não descartadas.
-- Família de IA: aprendizado supervisionado.
-- Tarefa: regressão.
-- Algoritmo: Random Forest Regressor.
-- Avaliação: divisão cronológica, comparada a uma referência sazonal de 52 semanas.
-- Visualizações: série semanal, totais anuais, sazonalidade mensal, avaliação do modelo, estimativas e importância das variáveis.
+Os microdados individuais não são incluídos no repositório.
 
 ## Limitações
 
-O SINAN contém notificações e pode apresentar subnotificação, atraso e revisão. O modelo é experimental e não substitui previsões oficiais ou decisões da vigilância epidemiológica. A base termina em dezembro de 2025; as quatro estimativas apresentadas são para janeiro de 2026, não uma previsão atualizada.
-
-Consulte `RESUMO_PARA_APRESENTAR.md` e `RESULTADOS_REAIS.md` para os detalhes da extração, do tratamento e do experimento.
+A fonte de 2026 é preliminar e apresenta atraso entre a ocorrência dos sintomas e a publicação. Para prever a partir da próxima semana futura, o sistema pode produzir semanas intermediárias estimadas quando não existem observações recentes. Essas previsões devem ser interpretadas como experimento acadêmico, não como alerta epidemiológico oficial.

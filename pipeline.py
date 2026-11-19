@@ -19,7 +19,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 START_DATE = pd.Timestamp("2015-01-01")
-END_DATE = pd.Timestamp("2025-12-31")
+END_DATE = pd.Timestamp("2026-12-31")
 STATE_CODE = "PE"
 
 
@@ -107,7 +107,7 @@ def _normalize_code(values: pd.Series) -> pd.Series:
 
 
 def prepare_dengue_data(raw_df: pd.DataFrame) -> PreparationResult:
-    """Filtra Pernambuco e 2015-2025 e agrega casos prováveis por semana epidemiológica.
+    """Filtra Pernambuco e 2015-2026 e agrega casos prováveis por semana epidemiológica.
 
     Prioriza UF/município de residência. Se a base não possuir SG_UF, usa
     SG_UF_NOT e registra essa limitação no metadata.
@@ -211,7 +211,7 @@ def prepare_dengue_data(raw_df: pd.DataFrame) -> PreparationResult:
 
     if df.empty:
         raise ValueError(
-            "Nenhum registro restou após os filtros. Verifique se o arquivo contém Pernambuco e os anos 2015-2025, "
+            "Nenhum registro restou após os filtros. Verifique se o arquivo contém Pernambuco e os anos 2015-2026, "
             "e se as colunas estão corretas."
         )
 

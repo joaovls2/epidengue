@@ -1,0 +1,11 @@
+EpiDengue - atualizacao da base 2026
+
+Fonte: Ministerio da Saude, Portal de Dados Abertos do SUS, recurso Dengue - 2026 (DENGBR26.csv).
+Data de atualizacao indicada no portal: 14/11/2026.
+Filtro territorial: SG_UF = 26 (UF de residencia, Pernambuco).
+Filtros: TP_NOT = 2 (notificacao individual); ID_AGRAVO = A90 (dengue); registros marcados como duplicidade (NDUPLIC_N = 2) removidos; CLASSI_FIN = 5 e 13 excluidos.
+Definicao operacional de casos provaveis: notificacoes, exceto as classificadas como descartadas.
+Registros de Pernambuco considerados: 23732.
+Data de inicio de sintomas mais recente na extracao: 2026-10-29.
+A semana epidemiologica de 25/10/2026 a 31/10/2026 esta incompleta na extracao (dados de inicio de sintomas ate 29/10/2026); aparece no historico, mas nao e usada para treinar a previsao.
+Os dados de 2026 sao preliminares e podem sofrer atualizacoes.

@@ -6,9 +6,9 @@ from pipeline import load_dataset, prepare_dengue_data, export_weekly_csv
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Prepara microdados SINAN - Dengue para Pernambuco (2015-2025).")
+    parser = argparse.ArgumentParser(description="Prepara microdados SINAN - Dengue para Pernambuco (2015-2026).")
     parser.add_argument("--input", required=True, help="Caminho do CSV, CSV.GZ, XLSX ou Parquet baixado da PDD-Cidacs.")
-    parser.add_argument("--output", default="data/dengue_pe_semanal_2015_2025.csv", help="Caminho do CSV semanal de saída.")
+    parser.add_argument("--output", default="data/dengue_pe_semanal_2015_2026.csv", help="Caminho do CSV semanal de saída.")
     args = parser.parse_args()
 
     raw = load_dataset(args.input)
